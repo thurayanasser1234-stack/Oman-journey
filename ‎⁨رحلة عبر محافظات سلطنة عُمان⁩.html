@@ -1,0 +1,323 @@
+<!DOCTYPE html>
+<html lang="ar" dir="rtl">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1, viewport-fit=cover">
+<title>رحلة عبر محافظات سلطنة عُمان</title>
+<link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=Lalezar&family=Tajawal:wght@400;700;800&display=swap">
+<style>
+:root{--red:#b3262d;--green:#2f7d4f;--sand:#f4dfb0;--deep:#7a1a22;--sea:#1f8aa8;--ink:#2b1a14;--card:#fffaf0;--gold:#e9a825;box-sizing:border-box;padding-top:env(safe-area-inset-top,0px);padding-bottom:env(safe-area-inset-bottom,0px)}
+*{box-sizing:border-box}
+html{height:100%;scroll-padding-top:env(safe-area-inset-top,0px)}
+body{margin:0;min-height:100%;font-family:'Tajawal',Tahoma,'Segoe UI',sans-serif;background:#f6e3b5;color:var(--ink);direction:rtl}
+h1,h2,.title{font-family:'Lalezar','Tajawal',Tahoma,sans-serif;font-weight:400;margin:0}
+.screen{display:none;min-height:100vh;position:relative}
+.screen.on{display:block}
+button{font-family:inherit;cursor:pointer}
+.btn{border:0;border-radius:999px;padding:14px 34px;font-size:1.4rem;font-weight:800;color:#fff;background:var(--green);box-shadow:0 6px 0 #1c5233;transition:transform .15s}
+.btn:hover{transform:translateY(-2px)}.btn:active{transform:translateY(4px);box-shadow:0 2px 0 #1c5233}
+.btn.red{background:var(--red);box-shadow:0 6px 0 var(--deep)}
+.btn.gold{background:var(--gold);color:var(--ink);box-shadow:0 6px 0 #a87612}
+.btn:disabled{opacity:.4;cursor:not-allowed}
+:focus-visible{outline:4px solid var(--gold);outline-offset:2px}
+/* welcome */
+#welcome{background:linear-gradient(#ffd98a 0%,#ffb86b 45%,#f4dfb0 46%);overflow:hidden;text-align:center}
+#welcome .scene{position:absolute;inset:0;width:100%;height:100%}
+#welcome .content{position:relative;z-index:2;padding:6vh 16px;display:flex;flex-direction:column;align-items:center;gap:2vh}
+#welcome h1{font-size:clamp(2.2rem,6vw,4.6rem);color:var(--deep);text-shadow:0 4px 0 #fff8e0;line-height:1.2}
+#welcome p{font-size:clamp(1.1rem,2.2vw,1.6rem);font-weight:700;margin:0;background:#fffaf0cc;padding:6px 18px;border-radius:99px}
+.bob{animation:bob 2s ease-in-out infinite}
+@keyframes bob{50%{transform:translateY(-8px)}}
+.drive{animation:drive 14s linear infinite}
+@keyframes drive{from{transform:translateX(120vw)}to{transform:translateX(-30vw)}}
+/* map */
+#mapscr{background:linear-gradient(#bfe6ef,#e9f6f4)}
+.top{display:flex;flex-wrap:wrap;gap:10px;align-items:center;justify-content:space-between;padding:10px 18px;background:var(--deep);color:#fff}
+.top h2{font-size:1.6rem}
+.chip{background:#ffffff26;border-radius:99px;padding:6px 16px;font-weight:800;font-size:1.1rem}
+.bar{height:12px;width:160px;background:#ffffff40;border-radius:9px;overflow:hidden;display:inline-block;vertical-align:middle;margin-inline-start:8px}
+.bar i{display:block;height:100%;background:var(--gold);width:0;transition:width .6s}
+.hint{text-align:center;font-weight:800;font-size:1.25rem;padding:8px;color:var(--deep)}
+.mapwrap{max-width:1000px;margin:0 auto;padding:0 10px 16px}
+svg.map{width:100%;height:auto;max-height:72vh;display:block}
+.mk{cursor:pointer}.mk circle.dot{fill:var(--red);stroke:#fff;stroke-width:4;transition:.2s}
+.mk:hover circle.dot,.mk:focus circle.dot{r:22;fill:var(--gold)}
+.mk.done circle.dot{fill:var(--green)}
+.mk text{font-family:'Tajawal',Tahoma,sans-serif;font-weight:800;font-size:19px;fill:var(--ink);paint-order:stroke;stroke:#fffaf0;stroke-width:5px;text-anchor:middle}
+.mk .num{fill:#fff;stroke:none;font-size:18px;text-anchor:middle}
+#car{transition:transform 2.2s cubic-bezier(.5,0,.3,1)}
+#car.go .wheel{animation:spin .4s linear infinite}
+.wheel{transform-box:fill-box;transform-origin:center}
+@keyframes spin{to{transform:rotate(-360deg)}}
+/* modal */
+#modal{position:fixed;inset:0;background:#2b1a1499;display:none;align-items:center;justify-content:center;padding:16px;z-index:10;overflow:auto}
+#modal.on{display:flex}
+.card{background:var(--card);border-radius:28px;border:6px solid var(--gold);padding:24px 28px;max-width:720px;width:100%;box-shadow:0 20px 50px #0006;animation:pop .35s}
+@keyframes pop{from{transform:scale(.85);opacity:0}}
+.card h2{font-size:2.2rem;color:var(--red);margin-bottom:8px}
+.card p{font-size:1.3rem;line-height:1.8;margin:8px 0}
+.tag{display:inline-block;background:#fde3a0;border:2px dashed #a87612;border-radius:10px;padding:2px 10px;font-size:.95rem;font-weight:700}
+.opts{display:grid;gap:12px;margin:16px 0}
+.opt{font-size:1.35rem;font-weight:800;text-align:right;padding:14px 18px;border-radius:16px;border:3px solid #d8c08a;background:#fff;color:var(--ink);transition:.15s}
+.opt:hover:not(:disabled){border-color:var(--green);transform:translateX(-4px)}
+.opt.ok{background:#c9f0d4;border-color:var(--green)}
+.opt.no{background:#fbd0d0;border-color:var(--red)}
+.fb{font-size:1.4rem;font-weight:800;min-height:2.2rem}
+.qhead{display:flex;justify-content:space-between;font-weight:800;color:var(--deep)}
+.stars{font-size:2.4rem;letter-spacing:6px}
+.stars .off{filter:grayscale(1);opacity:.3}
+.row{display:flex;gap:12px;justify-content:center;flex-wrap:wrap;margin-top:12px}
+.grid3{display:grid;grid-template-columns:repeat(auto-fit,minmax(150px,1fr));gap:12px;margin:14px 0}
+.stat{background:#fff;border-radius:18px;padding:12px;text-align:center;border:3px solid #ecd9a6}
+.stat b{display:block;font-size:2.2rem;color:var(--red)}
+.badge{display:inline-block;margin:4px;padding:6px 14px;border-radius:99px;background:var(--green);color:#fff;font-weight:800}
+.badge.lock{background:#bbb}
+#final{background:linear-gradient(#ffd98a,#f4dfb0);padding:20px}
+#final .card{margin:0 auto}
+.dests{display:flex;flex-wrap:wrap;gap:6px;justify-content:center}
+.confetti{position:fixed;top:-20px;font-size:1.6rem;animation:fall 2.5s linear forwards;z-index:20;pointer-events:none}
+@keyframes fall{to{transform:translateY(110vh) rotate(540deg)}}
+@media (prefers-reduced-motion:reduce){*{animation:none!important;transition:none!important}}
+</style>
+</head>
+<body>
+
+<!-- ============ شاشة الترحيب ============ -->
+<section id="welcome" class="screen on">
+  <svg class="scene" viewBox="0 0 1200 700" preserveAspectRatio="xMidYMax slice" aria-hidden="true">
+    <circle cx="950" cy="180" r="90" fill="#fff3b0"/>
+    <path d="M0 420 L140 280 L260 380 L400 250 L560 400 L700 300 L850 410 L1000 290 L1200 400 L1200 700 L0 700Z" fill="#a8613f"/>
+    <path d="M0 470 Q200 400 400 470 T800 470 T1200 460 L1200 700 L0 700Z" fill="#e8c27a"/>
+    <path d="M0 540 Q300 480 600 545 T1200 530 L1200 700 L0 700Z" fill="#f0cf8c"/>
+    <rect x="0" y="600" width="1200" height="60" fill="#5b4a43"/>
+    <path d="M0 630H1200" stroke="#fff" stroke-width="5" stroke-dasharray="40 30"/>
+    <g fill="#c98a52" stroke="#8a5530" stroke-width="3"><rect x="90" y="400" width="130" height="90"/><rect x="80" y="360" width="40" height="130"/><rect x="190" y="370" width="40" height="120"/><path d="M80 360h40l-20-24zM190 370h40l-20-24z"/></g>
+    <text x="320" y="500" font-size="80">🌴</text><text x="1040" y="500" font-size="90">🌴</text><text x="640" y="520" font-size="60">🐪</text>
+  </svg>
+  <div class="content">
+    <div style="font-size:3rem">🇴🇲</div>
+    <h1>رحلة عبر محافظات سلطنة عُمان</h1>
+    <p>سافر بالسيارة، واكتشف كل محافظة، وجمّع النجوم!</p>
+    <svg class="bob" width="260" height="150" viewBox="0 0 120 70"><use href="#carsvg"/></svg>
+    <button class="btn" id="startBtn">ابدئي الرحلة 🚗</button>
+  </div>
+  <div class="drive" style="position:absolute;bottom:3%;z-index:1"><svg width="150" height="90" viewBox="0 0 120 70"><use href="#carsvg"/></svg></div>
+</section>
+
+<!-- ============ الخريطة ============ -->
+<section id="mapscr" class="screen">
+  <div class="top">
+    <h2>🗺️ رحلة عبر محافظات سلطنة عُمان</h2>
+    <div><span class="chip">⭐ النقاط: <span id="sc">0</span></span></div>
+    <div class="chip">المحافظات: <span id="pg">0</span> / <span id="tot">11</span><span class="bar"><i id="pgbar"></i></span></div>
+    <button class="btn gold" id="finBtn" style="padding:6px 22px;font-size:1.1rem" disabled>النتائج 🏆</button>
+  </div>
+  <div class="hint" id="hint">اضغطي على محافظة لتنطلق السيارة إليها!</div>
+  <div class="mapwrap">
+    <svg class="map" id="map" viewBox="0 0 760 640" role="group" aria-label="خريطة تعليمية مبسطة">
+      <rect width="760" height="640" rx="30" fill="#8fd3e3"/>
+      <text x="680" y="560" font-size="26" fill="#ffffffaa" text-anchor="middle" font-family="Tajawal" font-weight="800">بحر العرب</text>
+      <text x="640" y="110" font-size="22" fill="#ffffffaa" text-anchor="middle" font-family="Tajawal" font-weight="800">خليج عُمان</text>
+      <!-- شكل تخطيطي مبسّط لسلطنة عُمان (غير دقيق جغرافيًا) -->
+      <path d="M420 30 L500 40 L545 110 L600 170 L680 230 L725 330 L690 400 L600 440 L480 470 L400 540 L330 600 L190 610 L120 520 L200 430 L260 330 L330 230 L350 140 Z" fill="#f4dfb0" stroke="#b3873c" stroke-width="6" stroke-linejoin="round"/>
+      <path d="M330 230 L350 140 L420 100" fill="none" stroke="#c98a52" stroke-width="3" stroke-dasharray="2 8" stroke-linecap="round"/>
+      <g font-size="34"><text x="470" y="150">⛰️</text><text x="300" y="360">🏜️</text><text x="560" y="400">🌴</text><text x="250" y="520">🌿</text><text x="640" y="310">🏖️</text><text x="395" y="300">🏰</text></g>
+      <g id="roads"></g><g id="markers"></g>
+      <g id="car" style="transform:translate(0px,0px)"><g id="carflip"><svg width="64" height="40" viewBox="0 0 120 70" x="-32" y="-34" overflow="visible"><use href="#carsvg"/></svg></g></g>
+    </svg>
+    <p style="text-align:center;font-weight:700;margin:0;opacity:.7;font-size:.95rem">الخريطة تخطيطية مبسّطة للتعلّم، وليست مقياسًا دقيقًا للمسافات.</p>
+  </div>
+</section>
+
+<!-- ============ النتائج ============ -->
+<section id="final" class="screen">
+  <div class="card" id="finalCard"></div>
+</section>
+
+<div id="modal"><div class="card" id="mcard"></div></div>
+
+<!-- السيارة والشخصية الكرتونية -->
+<svg width="0" height="0" style="position:absolute"><defs>
+<g id="carsvg">
+  <ellipse cx="60" cy="64" rx="48" ry="4" fill="#0003"/>
+  <path d="M8 50 Q6 34 24 32 L40 14 Q44 10 50 10 L84 10 Q90 10 94 16 L102 32 Q114 34 114 48 L114 54 L8 54Z" fill="#b3262d" stroke="#7a1a22" stroke-width="2.5" stroke-linejoin="round"/>
+  <path d="M42 17 L30 32 L96 32 L88 17Z" fill="#bfe6ef" stroke="#7a1a22" stroke-width="2"/>
+  <circle cx="60" cy="27" r="9" fill="#f1c28e" stroke="#7a1a22" stroke-width="1.5"/>
+  <path d="M50 24 Q60 12 70 24Z" fill="#fff" stroke="#7a1a22" stroke-width="1.2"/>
+  <circle cx="56.5" cy="27" r="1.4" fill="#2b1a14"/><circle cx="63.5" cy="27" r="1.4" fill="#2b1a14"/>
+  <path d="M56 30.5 Q60 34 64 30.5" fill="none" stroke="#2b1a14" stroke-width="1.3" stroke-linecap="round"/>
+  <rect x="104" y="40" width="9" height="6" rx="2" fill="#ffe27a"/>
+  <g class="wheel"><circle cx="30" cy="54" r="10" fill="#2b1a14"/><circle cx="30" cy="54" r="4" fill="#ddd"/><path d="M30 46v16M22 54h16" stroke="#999" stroke-width="1.5"/></g>
+  <g class="wheel"><circle cx="90" cy="54" r="10" fill="#2b1a14"/><circle cx="90" cy="54" r="4" fill="#ddd"/><path d="M90 46v16M82 54h16" stroke="#999" stroke-width="1.5"/></g>
+</g></defs></svg>
+
+<script>
+/* =====================================================================
+   ✏️ بيانات اللعبة — عدّلي الأسئلة هنا فقط
+   لكل محافظة:  intro  = نص التعريف بالمحافظة (حاليًا نص تجريبي)
+                questions = قائمة الأسئلة الخاصة بهذه المحافظة فقط
+   صيغة السؤال:  { q:"نص السؤال", options:["أ","ب","ج","د"], answer:0 }
+   answer = رقم الإجابة الصحيحة (يبدأ العدّ من 0: الأول=0، الثاني=1 ...)
+   يمكنك إضافة أي عدد من الأسئلة أو الخيارات لكل محافظة.
+   ===================================================================== */
+const POINTS_PER_QUESTION = 10;
+
+// دالة تولّد أسئلة تجريبية — احذفي استدعاءها عند كتابة الأسئلة الحقيقية
+function placeholder(name){
+  return [1,2,3].map(n => ({
+    q: `[سؤال تجريبي ${n}] هذا مكان سؤال المعلمة عن محافظة ${name}.`,
+    options: ["[الإجابة الصحيحة — تجريبية]","[خيار خاطئ ١ — تجريبي]","[خيار خاطئ ٢ — تجريبي]"],
+    answer: 0
+  }));
+}
+const INTRO_PLACEHOLDER = "[نص تعريفي تجريبي] سيُستبدل هذا النص بمعلومات الدرس عن المحافظة.";
+
+const GOVERNORATES = [
+  { id:"muscat",   name:"مسقط",         x:640, y:262, intro:INTRO_PLACEHOLDER, questions: placeholder("مسقط") },
+  { id:"dhofar",   name:"ظفار",         x:235, y:555, intro:INTRO_PLACEHOLDER, questions: placeholder("ظفار") },
+  { id:"musandam", name:"مسندم",        x:445, y:62,  intro:INTRO_PLACEHOLDER, questions: placeholder("مسندم") },
+  { id:"buraimi",  name:"البريمي",      x:370, y:165, intro:INTRO_PLACEHOLDER, questions: placeholder("البريمي") },
+  { id:"dakhiliyah",name:"الداخلية",    x:495, y:300, intro:INTRO_PLACEHOLDER, questions: placeholder("الداخلية") },
+  { id:"batinahN", name:"شمال الباطنة", x:545, y:150, intro:INTRO_PLACEHOLDER, questions: placeholder("شمال الباطنة") },
+  { id:"batinahS", name:"جنوب الباطنة", x:600, y:208, intro:INTRO_PLACEHOLDER, questions: placeholder("جنوب الباطنة") },
+  { id:"sharqiyahN",name:"شمال الشرقية",x:665, y:335, intro:INTRO_PLACEHOLDER, questions: placeholder("شمال الشرقية") },
+  { id:"sharqiyahS",name:"جنوب الشرقية",x:640, y:405, intro:INTRO_PLACEHOLDER, questions: placeholder("جنوب الشرقية") },
+  { id:"dhahirah", name:"الظاهرة",      x:405, y:240, intro:INTRO_PLACEHOLDER, questions: placeholder("الظاهرة") },
+  { id:"wusta",    name:"الوسطى",       x:420, y:430, intro:INTRO_PLACEHOLDER, questions: placeholder("الوسطى") },
+];
+/* ===================== نهاية قسم البيانات ===================== */
+
+const $ = id => document.getElementById(id);
+const NS = "http://www.w3.org/2000/svg";
+const S = { score:0, correct:0, total:0, done:{}, cur:null, pos:{x:640,y:262}, busy:false };
+const GOOD = ["ممتاز! 🌟","رائع جدًا! 👏","أحسنتِ! 🎉","إجابة صحيحة! ✅"];
+const TRY = ["لا بأس، حاولي في المرة القادمة 💪","اقتربتِ! تعلّمي من الإجابة الصحيحة 📘"];
+const pick = a => a[Math.floor(Math.random()*a.length)];
+
+function show(id){ document.querySelectorAll('.screen').forEach(s=>s.classList.remove('on')); $(id).classList.add('on'); window.scrollTo(0,0); }
+function modal(html){ $('mcard').innerHTML = html; $('modal').classList.add('on'); }
+function closeModal(){ $('modal').classList.remove('on'); }
+function starsHTML(n,max=3){ let h='<div class="stars" aria-label="'+n+' من '+max+' نجوم">'; for(let i=0;i<max;i++) h+='<span class="'+(i<n?'':'off')+'">⭐</span>'; return h+'</div>'; }
+function confetti(){ for(let i=0;i<24;i++){ const e=document.createElement('div'); e.className='confetti'; e.textContent=pick(['🎉','⭐','✨','🌟']); e.style.left=Math.random()*100+'vw'; e.style.animationDelay=Math.random()*.6+'s'; document.body.appendChild(e); setTimeout(()=>e.remove(),3500);} }
+
+/* ---------- بناء الخريطة ---------- */
+function buildMap(){
+  const mk = $('markers'); mk.innerHTML='';
+  GOVERNORATES.forEach((g,i)=>{
+    const el = document.createElementNS(NS,'g');
+    el.setAttribute('class','mk'+(S.done[g.id]?' done':'')); el.setAttribute('tabindex','0'); el.setAttribute('role','button'); el.setAttribute('aria-label','محافظة '+g.name);
+    el.innerHTML = `<circle class="dot" cx="${g.x}" cy="${g.y}" r="18"/><text class="num" x="${g.x}" y="${g.y+6}">${S.done[g.id]?'✓':i+1}</text><text x="${g.x}" y="${g.y-26}">${g.name}</text>`;
+    el.addEventListener('click',()=>visit(g.id));
+    el.addEventListener('keydown',e=>{ if(e.key==='Enter'||e.key===' '){e.preventDefault();visit(g.id);} });
+    mk.appendChild(el);
+  });
+  placeCar(S.pos.x,S.pos.y,false);
+}
+function placeCar(x,y){ $('car').style.transform = `translate(${x}px,${y-4}px)`; }
+function updateHUD(){
+  const n = Object.keys(S.done).length;
+  $('sc').textContent = S.score; $('pg').textContent = n; $('tot').textContent = GOVERNORATES.length;
+  $('pgbar').style.width = (n/GOVERNORATES.length*100)+'%'; $('finBtn').disabled = n===0;
+}
+
+/* ---------- السفر ---------- */
+function visit(id){
+  if(S.busy) return;
+  const g = GOVERNORATES.find(x=>x.id===id);
+  if(S.done[id]){ $('hint').textContent = `أنهيتِ تحدي ${g.name} من قبل ⭐ اختاري وجهة جديدة!`; return; }
+  S.busy = true; S.cur = g;
+  $('hint').textContent = `🚗 السيارة في الطريق إلى ${g.name}...`;
+  const road = document.createElementNS(NS,'path');
+  road.setAttribute('d',`M${S.pos.x} ${S.pos.y} L${g.x} ${g.y}`); road.setAttribute('stroke','#7a1a22'); road.setAttribute('stroke-width','5'); road.setAttribute('stroke-dasharray','4 12'); road.setAttribute('stroke-linecap','round'); road.setAttribute('opacity','.55');
+  $('roads').appendChild(road);
+  $('carflip').setAttribute('transform', g.x < S.pos.x ? 'scale(-1,1)' : 'scale(1,1)');
+  $('car').classList.add('go'); placeCar(g.x,g.y);
+  setTimeout(()=>{ $('car').classList.remove('go'); S.pos={x:g.x,y:g.y}; arrive(g); }, 2300);
+}
+function arrive(g){
+  $('hint').textContent = `وصلتِ إلى ${g.name}!`;
+  modal(`<h2>🎉 وصلنا إلى محافظة ${g.name}</h2>
+    <p>${g.intro}</p>
+    <p>أمامك ${g.questions.length} أسئلة عن ${g.name}. كل إجابة صحيحة تمنحك ${POINTS_PER_QUESTION} نقاط!</p>
+    <div class="row"><button class="btn" id="goQuiz">ابدئي التحدي 🎯</button></div>`);
+  $('goQuiz').onclick = ()=>quiz(g,0,0);
+}
+
+/* ---------- الأسئلة ---------- */
+function quiz(g,qi,right){
+  const q = g.questions[qi];
+  const order = q.options.map((_,i)=>i).sort(()=>Math.random()-.5);
+  modal(`<div class="qhead"><span>📍 ${g.name}</span><span>السؤال ${qi+1} من ${g.questions.length}</span></div>
+    <p style="font-size:1.6rem;font-weight:800">${q.q}</p>
+    <p style="font-size:1rem;margin:0">اختاري الإجابة الصحيحة:</p>
+    <div class="opts">${order.map(i=>`<button class="opt" data-i="${i}">${q.options[i]}</button>`).join('')}</div>
+    <div class="fb" id="fb" aria-live="polite"></div>
+    <div class="row"><button class="btn" id="nextQ" style="display:none">${qi+1<g.questions.length?'السؤال التالي ➡️':'عرض النتيجة ⭐'}</button></div>`);
+  document.querySelectorAll('.opt').forEach(b=>b.onclick=()=>{
+    const ok = +b.dataset.i === q.answer;
+    document.querySelectorAll('.opt').forEach(o=>{ o.disabled=true; if(+o.dataset.i===q.answer) o.classList.add('ok'); });
+    S.total++;
+    if(ok){ right++; S.correct++; S.score+=POINTS_PER_QUESTION; $('fb').textContent = pick(GOOD)+' +'+POINTS_PER_QUESTION; $('fb').style.color='var(--green)'; }
+    else { b.classList.add('no'); $('fb').textContent = pick(TRY); $('fb').style.color='var(--red)'; }
+    updateHUD();
+    $('nextQ').style.display='inline-block'; $('nextQ').focus();
+    $('nextQ').onclick = ()=> qi+1<g.questions.length ? quiz(g,qi+1,right) : finishGov(g,right);
+  });
+}
+function finishGov(g,right){
+  const n = g.questions.length, stars = Math.round(right/n*3);
+  S.done[g.id] = {right,n,stars};
+  buildMap(); updateHUD(); confetti();
+  const all = Object.keys(S.done).length === GOVERNORATES.length;
+  modal(`<h2>أنهيتِ تحدي ${g.name}! 🏁</h2>
+    <div style="text-align:center">${starsHTML(stars)}<p>إجاباتك الصحيحة: <b>${right}</b> من <b>${n}</b></p></div>
+    <div class="row">${all?'<button class="btn gold" id="toFinal">شاهدي النتائج 🏆</button>':'<button class="btn" id="cont">تابعي الرحلة 🚗</button>'}</div>`);
+  if(all) $('toFinal').onclick = results; else $('cont').onclick = ()=>{ closeModal(); S.busy=false; $('hint').textContent='اختاري المحافظة التالية من الخريطة!'; };
+}
+
+/* ---------- النتائج ---------- */
+function results(){
+  closeModal(); S.busy=false;
+  const done = GOVERNORATES.filter(g=>S.done[g.id]);
+  const stars = done.reduce((a,g)=>a+S.done[g.id].stars,0), maxStars = GOVERNORATES.length*3;
+  const pct = S.total ? S.correct/S.total : 0;
+  const badges = [
+    ["🚗 بدأتِ الرحلة", done.length>=1],
+    ["🧭 مستكشفة ماهرة (٥ محافظات)", done.length>=5],
+    ["🏆 أكملتِ كل المحافظات", done.length===GOVERNORATES.length],
+    ["🌟 ١٠ نجوم أو أكثر", stars>=10],
+    ["🎯 دقة ٨٠٪ أو أكثر", S.total>0 && pct>=.8],
+  ];
+  const msg = pct>=.8 ? "أداء مذهل! أنتِ خبيرة في محافظات عُمان 🇴🇲" : pct>=.5 ? "أداء جيد! استمري في التعلّم 👏" : "بداية جميلة! جرّبي الرحلة مرة أخرى لتجمعي نجومًا أكثر 💪";
+  $('finalCard').innerHTML = `<h2 style="text-align:center">🏆 نتيجة الرحلة</h2>
+    <p style="text-align:center;font-weight:800">${msg}</p>
+    <div class="grid3">
+      <div class="stat"><b>${S.score}</b>مجموع النقاط</div>
+      <div class="stat"><b>${S.correct} / ${S.total}</b>الإجابات الصحيحة</div>
+      <div class="stat"><b>${stars} / ${maxStars}</b>النجوم ⭐</div>
+      <div class="stat"><b>${done.length} / ${GOVERNORATES.length}</b>المحافظات المكتملة</div>
+    </div>
+    <p><b>المحافظات التي زرتِها:</b></p>
+    <div class="dests">${done.map(g=>`<span class="badge">${g.name} ${'⭐'.repeat(S.done[g.id].stars)}</span>`).join('')}</div>
+    <p><b>الإنجازات:</b></p>
+    <div>${badges.map(([t,ok])=>`<span class="badge ${ok?'':'lock'}">${ok?t:'🔒 '+t}</span>`).join('')}</div>
+    <div class="row">
+      ${done.length<GOVERNORATES.length?'<button class="btn" id="back">أكملي الرحلة 🚗</button>':''}
+      <button class="btn red" id="again">رحلة جديدة 🔄</button>
+    </div>`;
+  show('final'); if(pct>=.5) confetti();
+  if($('back')) $('back').onclick=()=>show('mapscr');
+  $('again').onclick=reset;
+}
+function reset(){
+  Object.assign(S,{score:0,correct:0,total:0,done:{},cur:null,busy:false,pos:{x:GOVERNORATES[0].x,y:GOVERNORATES[0].y}});
+  $('roads').innerHTML=''; buildMap(); updateHUD(); $('hint').textContent='اضغطي على محافظة لتنطلق السيارة إليها!'; show('welcome');
+}
+
+$('startBtn').onclick = ()=>{ show('mapscr'); };
+$('finBtn').onclick = results;
+S.pos = {x:GOVERNORATES[0].x, y:GOVERNORATES[0].y};
+buildMap(); updateHUD();
+</script>
+</body>
+</html>
